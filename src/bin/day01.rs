@@ -76,23 +76,17 @@ fn part02<R: Read>(mut input: R) -> Result<i32, std::io::Error> {
 mod tests {
     use super::*;
 
-    fn _test_input() -> &'static [u8] {
+    fn input() -> &'static [u8] {
         b"L68\nL30\nR48\nL5\nR60\nL55\nL1\nL99\nR14\nL82"
     }
 
     #[test]
     fn test_part01() {
-        match part01(&_test_input()[..]) {
-            Ok(result) => assert_eq!(result, 3),
-            Err(e) => panic!("Test failed with error: {}", e),
-        }
+        assert_eq!(part01(input()).unwrap(), 3);
     }
 
     #[test]
     fn test_part02() {
-        match part02(&_test_input()[..]) {
-            Ok(result) => assert_eq!(result, 6),
-            Err(e) => panic!("Test failed with error: {}", e),
-        }
+        assert_eq!(part02(input()).unwrap(), 6);
     }
 }
