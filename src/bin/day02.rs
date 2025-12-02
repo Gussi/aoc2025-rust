@@ -21,17 +21,10 @@ fn part01<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
 
     let mut input_string = String::new();
     input.read_to_string(&mut input_string)?;
-    let ranges: Vec<&str> = input_string.trim().split(',').collect();
 
-    for range in ranges {
-        let parts: Vec<&str> = range.split('-').collect();
-
-        let start_id = parts[0];
-        let end_id = parts[1];
-
-        for id in start_id.parse::<i64>().unwrap()..=end_id.parse::<i64>().unwrap() {
-            let id_str = id.to_string();
-            if is_valid_id(&id_str) {
+    for range in get_ranges(&input_string) {
+        for id in range.start..=range.end {
+            if is_valid_id(id.to_string().as_str()) {
                 continue;
             }
 
@@ -42,16 +35,14 @@ fn part01<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
     Ok(total_invalid_ids)
 }
 
-fn part02<R: Read>(mut _input: R) -> Result<i64, std::io::Error> {
+fn part02<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
     let mut total_invalid_ids = 0;
 
     let mut input_string = String::new();
-    _input.read_to_string(&mut input_string)?;
+    input.read_to_string(&mut input_string)?;
 
     for range in get_ranges(&input_string) {
-
         for id in range.start..=range.end {
-
             if is_valid_id_part02(id.to_string().as_str()) {
                 continue;
             }
