@@ -1,37 +1,18 @@
 use std::io::{BufRead};
 use std::io::Read;
+use aoc2025::run;
 
 fn main() {
-    let part = std::env::args().nth(1).unwrap_or_else(|| {
-        eprintln!("Usage: day01 <part>");
-        std::process::exit(1);
-    });
-
-    let result = match part.as_str() {
-        "1" => part01(std::io::stdin()),
-        "2" => part02(std::io::stdin()),
-        _ => {
-            eprintln!("Invalid part specified. Please use '1' or '2'.");
-            std::process::exit(1);
-        }
-    };
-
-    match result {
-        Ok(output) => println!("Result: {}", output),
-        Err(e) => {
-            eprintln!("Error occurred: {}", e);
-            std::process::exit(1);
-        }
-    }
+    run(part01, part02);
 }
 
-fn part01<R: Read>(mut input: R) -> Result<i32, std::io::Error> {
+fn part01<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
     let mut dial = 50;
     let mut counter = 0;
 
     for line in std::io::BufReader::new(&mut input).lines() {
         let prefix = &line.as_ref().unwrap()[0..1];
-        let number: i32 = line.as_ref().unwrap()[1..].parse().unwrap();
+        let number: i64 = line.as_ref().unwrap()[1..].parse().unwrap();
 
         match prefix {
             "L" => dial -= number,
@@ -47,13 +28,13 @@ fn part01<R: Read>(mut input: R) -> Result<i32, std::io::Error> {
     return Ok(counter);
 }
 
-fn part02<R: Read>(mut input: R) -> Result<i32, std::io::Error> {
+fn part02<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
     let mut dial = 50;
     let mut counter = 0;
 
     for line in std::io::BufReader::new(&mut input).lines() {
         let prefix = &line.as_ref().unwrap()[0..1];
-        let number: i32 = line.as_ref().unwrap()[1..].parse().unwrap();
+        let number: i64 = line.as_ref().unwrap()[1..].parse().unwrap();
 
         match prefix {
             "L" => {

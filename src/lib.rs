@@ -3,7 +3,7 @@ pub fn run(
     part02: fn(std::io::Stdin) -> Result<i64, std::io::Error>,
 ) {
     let part = std::env::args().nth(1).unwrap_or_else(|| {
-        eprintln!("Usage: day01 <part>");
+        eprintln!("Usage: {} <part>", std::env::args().next().unwrap());
         std::process::exit(1);
     });
 
