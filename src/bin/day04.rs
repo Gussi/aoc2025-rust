@@ -26,6 +26,12 @@ impl Map {
         }
     }
 
+    fn remove(&mut self, x: usize, y: usize) {
+        if y < self.grid.len() && x < self.grid[y].len() {
+            self.grid[y][x] = 'x';
+        }
+    }
+
     fn surrounded_count(&self, x: usize, y: usize, target: char) -> usize {
         let mut directions = Vec::new();
 
@@ -69,7 +75,7 @@ fn part01<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
         for x in 0..map.grid[y].len() {
             if map.get(x, y) != Some('@') {
                 continue;
-            } 
+            }
 
             if map.surrounded_count(x, y, '@') < 4 {
                 accessible_count += 1;
@@ -81,7 +87,33 @@ fn part01<R: Read>(mut input: R) -> Result<i64, std::io::Error> {
 }
 
 fn part02<R: Read>(mut _input: R) -> Result<i64, std::io::Error> {
-    Ok(0)
+    let mut map: Map = Map::new_from_lines(&mut _input)?;
+
+    let mut removed_count = 0;
+
+    loop {
+        let mut toilet_paper_was_removed = false;
+
+        for y in 0..map.grid.len() {
+            for x in 0..map.grid[y].len() {
+                if map.get(x, y) != Some('@') {
+                    continue;
+                }
+
+                if map.surrounded_count(x, y, '@') < 4 {
+                    map.remove(x, y);
+                    removed_count += 1;
+                    toilet_paper_was_removed = true;
+                }
+            }
+        }
+
+        if !toilet_paper_was_removed {
+            break;
+        }
+    }
+
+    Ok(removed_count)
 }
 
 #[cfg(test)]
@@ -108,6 +140,6 @@ mod tests {
 
     #[test]
     fn test_part02() {
-        assert_eq!(part02(input()).unwrap(), -1);
+        assert_eq!(part02(input()).unwrap(), 43);
     }
 }
